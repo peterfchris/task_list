@@ -16,6 +16,8 @@ function loadEventListeners() {
   taskList.addEventListener('click', removeTask)
   // Clear tasks event
   clearBtn.addEventListener('click', clearTasks)
+  // Filter tasks event
+  filter.addEventListener('keyup', filterTasks)
 }
 
 // Add Task
@@ -68,4 +70,20 @@ function clearTasks(){
   }
 
   // https://jsperf.com/innerhtml-vs-removechild
+}
+
+// Filter Tasks
+function filterTasks(e){
+  // we use toLowerCase so whatever is searched will match perfectly.
+  const text = e.target.value.toLowerCase()
+
+  // We can use forEach because querySelectorAll returns a node list. If we got element by class, then we'd get html, and we'd have to convert it into an array to use forEach
+  document.querySelectorAll('.collection-item').forEach(function(task){
+    const item = task.firstChild.textContent
+    if(item.toLowerCase().indexOf(text) != -1){
+      task.style.display = 'block'
+    } else {
+      task.style.display = 'none'
+    }
+  })
 }
